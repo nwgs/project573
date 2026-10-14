@@ -6,10 +6,14 @@ public class Main {
 
     public static void main(String[] args) {
         int step = 0; //переменная для хода персонажа
-        int personX = boardSize / 2; //размещение гг на 3 по абсцизе
-        int personY = boardSize / 2; //размещение гг на 3 по оординате
+        // int personX = boardSize / 2; //размещение гг на 3 по абсцизе
+        // int person.y = boardSize / 2; //размещение гг на 3 по оординате
         int difficultGame = 1;
-        int personLive = 3; //кол-во жизней гг
+        // int personLive = 3; //кол-во жизней гг
+
+        Random random = new Random();
+
+        Person person = new Person(boardSize);
 
         String[][] board = new String[boardSize][boardSize];
         int castleY = 0;
@@ -18,7 +22,7 @@ public class Main {
         int countMonster = boardSize * boardSize - boardSize - 1;
 
         // начало игры
-        System.out.println("Количество жизней:" + personLive);
+        System.out.println("Количество жизней:" + person.live);
         System.out.println("Привет! Ты готов начать игру? (Напиши: ДА или НЕТ)");
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.nextLine();
@@ -37,11 +41,10 @@ public class Main {
         difficultGame = scanner.nextInt();
         System.out.println("Выбранная сложность:\t" + difficultGame);
         // поле
-        String person = "Г ";
+        String personL = "Г ";
         String monster = "Мм";
         String castle = "З ";
 
-        Random random = new Random();
         castleX = random.nextInt(boardSize);
 
         while (true) {
@@ -58,44 +61,42 @@ public class Main {
                 board[monsterX][monsterY] = monster;
             }
 
-            board[personX][personY] = person;
+            board[person.x][person.y] = person.image;
             board[castleX][castleY] = castle;
 
-            outputBoard(board, personLive);
+            outputBoard(board, person.live);
 
-            if (personX == castleX && personY == castleY) {
+            if (person.x == castleX && person.y == castleY) {
                 System.out.println("Поздравляю! Вы прошли игру!");
                 break;
             }
-            if (personLive == 0) {
+            if (person.live == 0) {
                 System.out.println("Вы проиграли!");
                 System.exit(0);
             }
 
             System.out.println("Введите куда будет ходить персонаж (ход возможен только по вертикали и горизонтали на одну клетку)");
-            System.out.println("Координаты персонажа - (x:" + (personX + 1) + ", y: " + (personY + 1) + ")");
+            System.out.println("Координаты персонажа - (x:" + (person.x + 1) + ", y: " + (person.y + 1) + ")");
             int new_pos_x = scanner.nextInt();
             int new_pos_y = scanner.nextInt();
             --new_pos_x;
             --new_pos_y;
-
-            if ((new_pos_x >= boardSize || new_pos_x < 0 || new_pos_y >= boardSize || new_pos_y < 0)
-                    || Math.abs(new_pos_x - personX) > 1 || Math.abs(new_pos_y - personY) > 1) {
+            // проверка корректности хода
+            if (! person.isMoveCorrect(new_pos_x, new_pos_y)) {
                 System.out.println("Некорректный ход");
                 continue;
             }
+            person.move(new_pos_x, new_pos_y);
 
-            if (board[personX][personY] == monster)
+            if (board[person.x][person.y] == monster)
             {
                 System.out.println("Реши задачу...");
                 // дополнение начинается тут
                 if (taskMonster(difficultGame)) {
-                    board[personY][personX] = "  ";
-                    personX = new_pos_x;
-                    personY = new_pos_y;
+                    board[person.y][person.x] = "  ";
                     step++;
                 } else {
-                    personLive--;
+                    person.decLives();
                 }
             }
         }
