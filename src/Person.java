@@ -1,11 +1,42 @@
 import java.util.Random;
 
 public class Person {
-    int x;
-    int y;
-    String image = "\uD83E\uDDD9";
-    int live = 3;
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void  downLive(){
+        if (live <= 0) {
+            live = 0;
+        } else {
+            live --;
+        }
+    }
+
+    public String getImage(){
+        return image;
+    }
+
+    public int getx(){
+        return x;
+    }
+
+    public int getY(){
+        return y;
+    }
+
+    public int getLive(){
+        return live;
+    }
+
+    private int x;
+    private int y;
+    private String image = "\uD83E\uDDD9";
+    private int live = 3;
     private int boardSize = 0;
+
+
 
     Person(int boardSize) {
         Random random = new Random();
