@@ -2,16 +2,28 @@
 import java.util.Random;
 import java.util.Scanner;
 public class Main {
-    static final int boardSize = 5; //размер поля 5 x 5
 
+    public void setDifficultGame(){this.difficultGame = difficultGame;}
+
+    static final int boardSize = 5; //размер поля 5 x 5
+    public int difficultGame = 1;
     public static void main(String[] args) {
         int step = 0; //переменная для хода персонажа
-        int difficultGame = 1;
-        int countMonster = boardSize * boardSize - boardSize - 1;
 
+        int countMonster = boardSize * boardSize - boardSize - 1;
         Random random = new Random();
 
         Person person = new Person(boardSize);
+
+        BigMonster[] bigmnstr = new BigMonster[7];
+        for (int i = 0; i < 7; i ++){
+            bigmnstr[i] = new BigMonster(boardSize);
+        }
+
+        SmallMonster[] smallmnstr = new SmallMonster[7];
+        for (int i = 0; i < 7; i ++){
+            smallmnstr[i] = new SmallMonster(boardSize);
+        }
 
         Monster[] monsters = new Monster[19];
         for (int i  = 0; i < 19; i ++)
@@ -42,8 +54,8 @@ public class Main {
 
         // todo проверка введенного значения
         System.out.println("Выбери сложность игры (от 1 до 5):");
-        difficultGame = scanner.nextInt();
-        System.out.println("Выбранная сложность:\t" + difficultGame);
+        int setDifficultGame = scanner.nextInt();
+        System.out.println("Выбранная сложность:\t" + setDifficultGame);
         // поле
 
         String castle = "\uD83C\uDFF0";
@@ -58,10 +70,19 @@ public class Main {
                 }
             }
             // выовдим монстров
-            for (int i = 0; i < monsters.length; ++i) {
-                board[monsters[i].getx()][monsters[i].getY()] = Monster.monimage;
+            if (setDifficultGame == 1) {
+                for (int i = 0; i < monsters.length; ++i) {
+                    board[monsters[i].getx()][monsters[i].getY()] = Monster.monimage;
+                }
+            } else if (setDifficultGame == 2) {
+                for (int i = 0; i < smallmnstr.length; ++i) {
+                    board[smallmnstr[i].getx()][smallmnstr[i].getY()] = Monster.monimage;
+                }
+            } else {
+                for (int i = 0; i < bigmnstr.length; ++i) {
+                    board[bigmnstr[i].getx()][bigmnstr[i].getY()] = Monster.monimage;
+                }
             }
-
             board[person.getx()][person.getY()] = person.getImage();
             board[castleX][castleY] = castle;
 
@@ -90,19 +111,20 @@ public class Main {
             person.move(new_pos_x, new_pos_y);
 
             if (board[person.getx()][person.getY()] == Monster.monimage)
-            {
-                System.out.println("Реши задачу...");
+            {System.out.println("Реши задачу...");
+
                 // дополнение начинается тут
-                if (! Monster.taskMonster(difficultGame)) {
+                if (! monsters[18].taskMonster(setDifficultGame)) {
                     person.decLives();
                 } else {
                     board[person.getY()][person.getx()] = "  ";
                     step++;
                 }
             }
-        }
-    } // end main
 
+                }
+
+ } // end main
     /* *******************************************************************
     *  место для функций
     * ******************************************************************** * */
@@ -119,8 +141,8 @@ public class Main {
         String wall = "+ —— + —— + —— + —— + —— +";
 
         System.out.println(wall);
-        for (int y = 0; y < boardSize; y++) {
-            for (int x = 0; x < boardSize; x++) {
+        for (int y = 0; y < Main.boardSize; y++) {
+            for (int x = 0; x < Main.boardSize; x++) {
                 System.out.print(leftblock);
                 System.out.print(board[x][y]);
                 if (x == 4)
@@ -133,7 +155,6 @@ public class Main {
     }
 
 } // end class main
-
 
 
 

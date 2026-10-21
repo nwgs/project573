@@ -5,8 +5,8 @@ public class Monster {
 
     Random random = new Random();
 
-    private int x;
-    private int y;
+    protected int x;
+    protected int y;
     static String monimage = "\uD83E\uDDDF";
     private int live = 3;
 
@@ -23,8 +23,8 @@ public class Monster {
         return y;
     }
 
-    static boolean taskMonster(int difftGame) {
-        if (difftGame == 1) {
+    public boolean taskMonster(int difficultGame) {
+        if (difficultGame == 1) {
             Random random = new Random();
             int a = random.nextInt(100);
             int b = random.nextInt(100);
