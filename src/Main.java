@@ -2,11 +2,8 @@
 import java.util.Random;
 import java.util.Scanner;
 public class Main {
-
-    public void setDifficultGame(){this.difficultGame = difficultGame;}
-
     static final int boardSize = 5; //размер поля 5 x 5
-    public int difficultGame = 1;
+    public int difficultGame;
     public static void main(String[] args) {
         int step = 0; //переменная для хода персонажа
 
@@ -15,13 +12,13 @@ public class Main {
 
         Person person = new Person(boardSize);
 
-        BigMonster[] bigmnstr = new BigMonster[7];
-        for (int i = 0; i < 7; i ++){
+        BigMonster[] bigmnstr = new BigMonster[20];
+        for (int i = 0; i < 20; i ++){
             bigmnstr[i] = new BigMonster(boardSize);
         }
 
-        SmallMonster[] smallmnstr = new SmallMonster[7];
-        for (int i = 0; i < 7; i ++){
+        SmallMonster[] smallmnstr = new SmallMonster[18];
+        for (int i = 0; i < 18; i ++){
             smallmnstr[i] = new SmallMonster(boardSize);
         }
 
@@ -51,11 +48,32 @@ public class Main {
             System.out.println("Приходи еще!");
             System.exit(0);
         }
-
-        // todo проверка введенного значения
+        //проверка сложности
         System.out.println("Выбери сложность игры (от 1 до 5):");
-        int setDifficultGame = scanner.nextInt();
-        System.out.println("Выбранная сложность:\t" + setDifficultGame);
+        int DifficultGame = scanner.nextInt();
+        switch (DifficultGame) {
+            case 1 :
+                System.out.println("Выбранная сложность:\t" + DifficultGame);
+                break;
+            case 2:
+                System.out.println("Выбранная сложность:\t" + DifficultGame);
+                break;
+            case 3:
+                System.out.println("Выбранная сложность:\t" + DifficultGame);
+                break;
+            case 4:
+                System.out.println("Выбранная сложность:\t" + DifficultGame);
+                break;
+            case 5:
+                System.out.println("Выбранная сложность:\t" + DifficultGame);
+                break;
+            default:
+                System.out.println("Некорректная сложность.");
+                System.exit(0);
+                break;
+        }
+
+
         // поле
 
         String castle = "\uD83C\uDFF0";
@@ -70,11 +88,11 @@ public class Main {
                 }
             }
             // выовдим монстров
-            if (setDifficultGame == 1) {
+            if (DifficultGame == 1) {
                 for (int i = 0; i < monsters.length; ++i) {
                     board[monsters[i].getx()][monsters[i].getY()] = Monster.monimage;
                 }
-            } else if (setDifficultGame == 2) {
+            } else if (DifficultGame == 2) {
                 for (int i = 0; i < smallmnstr.length; ++i) {
                     board[smallmnstr[i].getx()][smallmnstr[i].getY()] = Monster.monimage;
                 }
@@ -109,20 +127,48 @@ public class Main {
                 continue;
             }
             person.move(new_pos_x, new_pos_y);
-
-            if (board[person.getx()][person.getY()] == Monster.monimage)
-            {System.out.println("Реши задачу...");
+            //монстры и все про них
+            if (board[person.getx()][person.getY()] == Monster.monimage) {
+                System.out.println("Реши задачу...");
 
                 // дополнение начинается тут
-                if (! monsters[18].taskMonster(setDifficultGame)) {
-                    person.decLives();
-                } else {
-                    board[person.getY()][person.getx()] = "  ";
-                    step++;
+                if (DifficultGame == 1) {
+                    if (!monsters[18].taskMonster(DifficultGame)) {
+                        person.decLives();
+                    } else {
+                        board[person.getY()][person.getx()] = "  ";
+                        step++;
+                    }
+                } else if (DifficultGame == 2) {
+                    if (!smallmnstr[17].taskMonster(DifficultGame)) {
+                        person.decLives();
+                    } else {
+                        board[person.getY()][person.getx()] = "  ";
+                        step++;
+                    }
+                }else {
+                    if (!bigmnstr[18].taskMonster(DifficultGame)) {
+                        person.decLives();
+                    } else {
+                        board[person.getY()][person.getx()] = "  ";
+                        step++;
+                    }
+                    }
+                 if (person.getLive() == 0){
+                     System.out.println("Так уж и быть, я тебя помилую, если отгадаешь чило от 1 до 10");
+                     int num = random.nextInt(1, 10);
+                     int ansn = scanner.nextInt();
+                     if (num == ansn){
+                         System.out.println("Ох, не думал, что ты отгадаешь... Ладно, свободен!");
+                         person.plsLives();
+                     } else {
+                         System.out.println("Вы проиграли!");
+                         System.exit(0);
+                     }
+                 }
                 }
             }
 
-                }
 
  } // end main
     /* *******************************************************************

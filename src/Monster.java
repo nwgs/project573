@@ -2,6 +2,9 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Monster {
+    public void setMonimage(String monimage) {
+        Monster.monimage = monimage;
+    }
 
     Random random = new Random();
 
@@ -49,8 +52,6 @@ public class Monster {
         return monimage;
     }
 
-    public void setMonimage(String monimage) {
-        this.monimage = monimage;
-    }
+
 
 }

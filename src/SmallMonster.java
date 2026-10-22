@@ -3,7 +3,11 @@ import java.util.Scanner;
 
 public class SmallMonster extends Monster {
 
-    SmallMonster(int boardSize) {super(boardSize);}
+    SmallMonster(int boardSize) {
+        Monster monster = new Monster(boardSize);
+        monster.setMonimage("\uD83E\uDDCC");
+        super(boardSize);
+    }
 
     @Override
 
@@ -11,7 +15,7 @@ public class SmallMonster extends Monster {
         if ( difficultGame== 1) {
             return taskMonster();
         } else if (difficultGame == 2) {
-            System.out.println("решите задачу...");
+            System.out.println(" ");
         }
         Random random = new Random();
         int c = random.nextInt(10);
@@ -28,10 +32,11 @@ public class SmallMonster extends Monster {
             return true;
         } else {
             System.out.println("Ты проиграл эту битву...");
+
             return false;
         }
     }
    public boolean taskMonster() {
-        return super.taskMonster(1);
+        return super.taskMonster(2);
     }
 }

@@ -57,4 +57,5 @@ public class Person {
     public void decLives() {
       --live;
     }
+    public void plsLives() {++live;}
 }// end person class

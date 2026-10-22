@@ -4,6 +4,8 @@ import java.util.Scanner;
 public class BigMonster extends Monster{
 
     BigMonster(int boardSize) {
+        Monster monster = new Monster(boardSize);
+        monster.setMonimage("\uD83D\uDC7F");
         super(boardSize);
     }
     @Override
@@ -11,7 +13,7 @@ public class BigMonster extends Monster{
         if ( difficultGame== 1 || difficultGame == 2) {
             return taskMonster();
         }else {
-            System.out.println("Решите задачу...");
+            System.out.println(" ");
         }
 
         Random random = new Random();
